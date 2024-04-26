@@ -1,28 +1,35 @@
-import './App.css';
+// App.js
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/Login';
+import Quotes from './components/Quotes';
+import Images from './components/Images';
+import './styles.css';
+
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setLoggedIn(true);
+    localStorage.setItem('loggedIn', 'true');
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    localStorage.setItem('loggedIn', 'false');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="Octocat.png" className="App-logo" alt="logo" />
-        <p>
-          GitHub Codespaces <span className="heart">♥️</span> React
-        </p>
-        <p className="small">
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Home loggedIn={loggedIn} handleLogout={handleLogout} />} />
+        <Route path="/login" element={<Login loggedIn={loggedIn} handleLogin={handleLogin} />} />
+        <Route path="/quotes" element={<Quotes />} />
+        <Route path="/images" element={<Images />} />
+      </Routes>
+    </Router>
   );
 }
 
